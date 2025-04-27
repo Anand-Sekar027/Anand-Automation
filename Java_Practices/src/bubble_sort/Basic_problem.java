@@ -22,7 +22,7 @@ public class Basic_problem {
 					arr[j+1] = temp;
 				}
 			}
-			//System.out.println("Sorted Array : "+ Arrays.toString(arr));
+			System.out.println("Sorted Array @ i=  "+i+" -->"+ Arrays.toString(arr));
 		}
 		System.out.println("Sorted Array : "+ Arrays.toString(arr));
 		
