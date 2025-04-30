@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/Anand-Sekar027/Anand-Automation/tree/main/selenium-java', branch: 'main'
+                git url: 'https://github.com/Anand-Sekar027/Anand-Automation.git', branch: 'main'
             }
         }
 
