@@ -25,13 +25,13 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'mvn test'
+                bat 'mvn test -DsuiteXmlFile=TestNG_xml/test.xml'
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit '**/target/surefire-reports/*.xml'
+                junit 'target/surefire-reports/*.xml'
             }
         }
 
