@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    tools {
+        jdk 'jdk-17'
+        maven 'maven-3.9'
+    }
+
+    environment {
+        PATH = "${tool 'jdk-17'}\\bin;${tool 'maven-3.9'}\\bin;${env.PATH}"
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/Anand-Sekar027/Anand-Automation.git', branch: 'main'
+            }
+        }
+
+        stage('Build Project') {
+            steps {
+                bat 'mvn clean compile'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                junit '**/target/surefire-reports/*.xml'
+            }
+        }
+
+        stage('Notify') {
+            steps {
+                echo "Build ${env.BUILD_NUMBER} completed with result: ${currentBuild.currentResult}"
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ All tests passed successfully!'
+        }
+        failure {
+            echo '❌ One or more tests failed.'
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
