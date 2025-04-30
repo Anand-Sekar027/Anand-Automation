@@ -19,19 +19,23 @@ pipeline {
 
         stage('Build Project') {
             steps {
-                bat 'mvn clean compile'
+                dir('selenium-java') {
+                    bat 'mvn clean compile'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'mvn test -DsuiteXmlFile=TestNG_xml/test.xml'
+                dir('selenium-java') {
+                    bat 'mvn test -DsuiteXmlFile=TestNG_xml/test.xml'
+                }
             }
         }
 
         stage('Publish Test Results') {
             steps {
-                junit 'target/surefire-reports/*.xml'
+                junit 'selenium-java/target/surefire-reports/*.xml'
             }
         }
 
