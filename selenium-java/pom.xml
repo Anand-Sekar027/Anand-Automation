@@ -3,6 +3,14 @@
   <groupId>selenium-java</groupId>
   <artifactId>selenium-java</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+   <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+    </properties>
+    
+    
   <dependencies>
 
   <dependency>
@@ -15,7 +23,6 @@
     <groupId>org.testng</groupId>
     <artifactId>testng</artifactId>
     <version>7.8.0</version>
-    <scope>test</scope>
 </dependency>
  <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
 <dependency>
@@ -28,7 +35,59 @@
   <artifactId>slf4j-simple</artifactId>
   <version>2.0.13</version> <!-- Match your slf4j version -->
 </dependency>
+<dependency> 
+<groupId>com.aventstack</groupId>
+ <artifactId>extentreports</artifactId> 
+ <version>5.1.1</version> 
+ </dependency>
+   <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.20.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.20.0</version>
+        </dependency>
  </dependencies>
+ 
+ <profiles>
+    <profile>
+        <id>dynamic-suite</id>
+        <activation>
+            <activeByDefault>true</activeByDefault> <!-- Optional: remove if you want to activate manually -->
+        </activation>
+        <properties>
+            <!-- Default to some test suite if none provided -->
+            <suiteXmlFile>TestNG_xml/testng-default.xml</suiteXmlFile>
+        </properties>
+    </profile>
+</profiles>
+ 
+  <build>
+        <plugins>
+            <!-- Maven Compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- Maven Surefire Plugin (to run TestNG tests) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <suiteXmlFiles>
+                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
+                     <useSystemClassLoader>true</useSystemClassLoader>
+                <disableXmlReport>true</disableXmlReport> <!-- ✅ Stop surefire XML -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
